@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ('pk', 'username', 'email', 'password', 'password2')
+        fields = ('username', 'email', 'password', 'password2')
         extra_kwargs = {
             'password' : {'write_only' : True} 
         }
@@ -23,5 +23,5 @@ class UserSerializer(serializers.ModelSerializer):
         if password != password2:
             raise serializers.ValidationError({'password' : 'passwords must match'})
         user.set_password(password)
-        account.save()
+        user.save()
         return user

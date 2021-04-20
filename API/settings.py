@@ -71,6 +71,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'API.wsgi.application'
 
+AUTH_USER_MODEL = 'bike_hire.Student'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
