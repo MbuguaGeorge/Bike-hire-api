@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bike_hire',
+    'corsheaders',
     'rest_framework',
 ]
 
@@ -45,6 +46,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -72,6 +74,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'API.wsgi.application'
 
 AUTH_USER_MODEL = 'bike_hire.Student'
+
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000"
+]
 
 
 # Database
