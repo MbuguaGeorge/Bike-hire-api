@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'bike_hire',
     'corsheaders',
     'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
