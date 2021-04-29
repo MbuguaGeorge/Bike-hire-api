@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from rest_framework import serializers, generics, permissions
-from .serializers import UserSerializer, ListSerializer
+from .serializers import UserSerializer, ListSerializer, ProfileSerializer
 from rest_framework.views import APIView
 from django.contrib.auth.models import User
-from .models import Student
+from .models import Student,Profile
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from django.contrib.auth import authenticate
@@ -27,12 +27,12 @@ def registration(request):
             data = serializer.errors
         return Response(data)
 
-class userlist(generics.ListCreateAPIView):
+class userlist(generics.ListAPIView):
     lookup_field = 'pk'
     serializer_class = ListSerializer
 
     def get_queryset(self):
-        return Student.objects.all()
+        return Profile.objects.all()
 
 @permission_classes((permissions.AllowAny,))
 class TokenView(APIView):
@@ -45,3 +45,23 @@ class TokenView(APIView):
             return Response({"token" : user.auth_token.key})
         else:
             return Response({"error" : "Wrong credentials"}, status = status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST',])
+@permission_classes((permissions.AllowAny,))
+def profiling(request):
+    if request.method == 'POST':
+        serializer = ProfileSerializer(data = request.data)
+        data = {}
+
+        if serializer.is_valid():
+            prof = serializer.save()
+            data['response'] = 'success'
+            data['firstname'] = prof.firstname
+            data['lastname'] = prof.lastname
+            data['contact'] = prof.contact
+            data['student'] = prof.student
+            data['hourly'] = prof.hourly
+            data['daily'] = prof.daily
+        else:
+            data = serializer.errors
+        return Response(data)

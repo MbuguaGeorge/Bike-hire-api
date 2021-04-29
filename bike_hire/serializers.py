@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
-from .models import Student
+from .models import Student, Profile
 
 class UserSerializer(serializers.ModelSerializer):
 
@@ -26,7 +26,25 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+
+        model = Profile
+        fields = ('student','firstname','lastname','contact','daily','hourly')
+
+    def profile(self):
+        stude = Profile(
+            firstname = self.validated_data['firstname'],
+            lastname = self.validated_data['lastname'],
+            contact = self.validated_data['contact'],
+            student = self.validated_data['student'],
+            daily = self.validated_data['daily'],
+            hourly = self.validated_data['hourly'],
+        )
+        stude.save()
+        return stude
+
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Student
-        fields = ('username', 'email','password')
+        model = Profile
+        fields = ('firstname', 'lastname','contact','hourly','daily')
