@@ -46,6 +46,14 @@ class TokenView(APIView):
         else:
             return Response({"error" : "Wrong credentials"}, status = status.HTTP_400_BAD_REQUEST)
 
+    def get(self, request,):
+        for user in Student.objects.all():
+            token = Token.objects.get(user=user)
+            if token:
+                return Response({user.username : user.auth_token.key})
+            else:
+                return Response({"error" : "Wrong credentials"}, status = status.HTTP_400_BAD_REQUEST)
+
 @api_view(['POST',])
 @permission_classes((permissions.AllowAny,))
 def profiling(request):
@@ -59,7 +67,6 @@ def profiling(request):
             data['firstname'] = prof.firstname
             data['lastname'] = prof.lastname
             data['contact'] = prof.contact
-            data['student'] = prof.student
             data['hourly'] = prof.hourly
             data['daily'] = prof.daily
         else:

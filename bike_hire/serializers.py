@@ -28,18 +28,17 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
-
         model = Profile
-        fields = ('student','firstname','lastname','contact','daily','hourly')
+        fields = ('firstname','lastname','contact','daily','hourly','initials')
 
     def profile(self):
         stude = Profile(
             firstname = self.validated_data['firstname'],
             lastname = self.validated_data['lastname'],
             contact = self.validated_data['contact'],
-            student = self.validated_data['student'],
             daily = self.validated_data['daily'],
             hourly = self.validated_data['hourly'],
+            initials = self.validated_data['initials'],
         )
         stude.save()
         return stude
@@ -47,4 +46,4 @@ class ProfileSerializer(serializers.ModelSerializer):
 class ListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('firstname', 'lastname','contact','hourly','daily')
+        fields = ('firstname', 'lastname','contact','hourly','daily','initials')
